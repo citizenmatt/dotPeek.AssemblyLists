@@ -1,0 +1,9 @@
+[Bb]in
+[Oo]bj
+_ReSharper*/
+dotPeek/
+*.bak
+*.docstates
+*.suo
+*.swp
+*.user

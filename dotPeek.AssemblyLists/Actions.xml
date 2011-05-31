@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<actions xmlns="urn:shemas-jetbrains-com:actions-xml">
+  <action id="CitizenMatt.AssemblyLists" text="Open Assembly &amp;List...">
+    <shortcut>Control+L</shortcut>
+    <vs-shortcut>Control+L</vs-shortcut>
+  </action>
+
+  <insert group-id="AssemblyExplorerActionBar" position="last">
+    <action-ref id="CitizenMatt.AssemblyLists" />
+  </insert>
+
+  <insert group-id="DotPeek.File" position="after" anchor-id="OpenFromGac">
+    <action-ref id="CitizenMatt.AssemblyLists" />
+  </insert>
+</actions>
