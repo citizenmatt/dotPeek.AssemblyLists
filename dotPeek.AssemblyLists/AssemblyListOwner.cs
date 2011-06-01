@@ -9,8 +9,6 @@ using JetBrains.Util;
 
 namespace CitizenMatt.DotPeek.AssemblyLists
 {
-    // I wonder if this should be SolutionComponent or ShellComponent? Until dotPeek gets
-    // solutions + projects, I guess it doesn't matter
     [SolutionComponent]
     public class AssemblyListOwner : IXmlExternalizable
     {
