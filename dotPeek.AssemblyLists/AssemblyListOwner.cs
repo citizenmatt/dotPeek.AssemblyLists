@@ -9,17 +9,15 @@ using JetBrains.Util;
 
 namespace CitizenMatt.DotPeek.AssemblyLists
 {
-    // I wonder if this should be SolutionComponent or ShellComponent? Until dotPeek gets
-    // solutions + projects, I guess it doesn't matter
     [SolutionComponent]
     public class AssemblyListOwner : IXmlExternalizable
     {
-        private readonly ISolution solution;
+        private readonly AssemblyExplorerManager assemblyExplorerManager;
         private AssemblyListManager manager = new AssemblyListManager(new Dictionary<string, IList<string>>(), null);
 
-        public AssemblyListOwner(Lifetime lifetime, ISolution solution, ShellSettingsComponent shellSettings)
+        public AssemblyListOwner(Lifetime lifetime, AssemblyExplorerManager assemblyExplorerManager, ShellSettingsComponent shellSettings)
         {
-            this.solution = solution;
+            this.assemblyExplorerManager = assemblyExplorerManager;
             shellSettings.LoadSettings(lifetime, this, XmlExternalizationScope.WorkspaceSettings, "AssemblyLists");
         }
 
@@ -59,11 +57,6 @@ namespace CitizenMatt.DotPeek.AssemblyLists
             }
         }
 
-        private AssemblyExplorerManager AssemblyExplorerManager
-        {
-            get { return solution.GetComponent<AssemblyExplorerManager>(); }
-        }
-
         public AssemblyListManager GetAssemblyListsForEditing()
         {
             RefreshCurrentAssemblyList();
@@ -82,7 +75,7 @@ namespace CitizenMatt.DotPeek.AssemblyLists
 
         private void DisplayAssemblyList(IList<string> assemblyList)
         {
-            AssemblyExplorerManager.ResetVisibleAssemblies();
+            assemblyExplorerManager.ResetVisibleAssemblies();
 
             if (assemblyList.Count == 0)
                 assemblyList.AddRange(GetVisibleAssemblyList());
@@ -93,19 +86,19 @@ namespace CitizenMatt.DotPeek.AssemblyLists
                 var paths = from path in assemblyList
                             select new FileSystemPath(path);
 
-                AssemblyExplorerManager.AddUserVisibleAssembly(paths.ToArray());
+                assemblyExplorerManager.AddUserVisibleAssembly(paths.ToArray());
             }
         }
 
         private void ClearVisibleAssemblies()
         {
-            var assemblyFiles = from assembly in AssemblyExplorerManager.UserVisibleAssemblies
+            var assemblyFiles = from assembly in assemblyExplorerManager.UserVisibleAssemblies
                                 from file in assembly.GetFiles()
                                 select file;
 
             foreach (var assemblyFile in assemblyFiles.Distinct(x => x.Location.FullPath))
             {
-                AssemblyExplorerManager.RemoveUserVisibleAssembly(assemblyFile);
+                assemblyExplorerManager.RemoveUserVisibleAssembly(assemblyFile);
             }
         }
 
@@ -116,7 +109,7 @@ namespace CitizenMatt.DotPeek.AssemblyLists
 
         private List<string> GetVisibleAssemblyList()
         {
-            var files = from assembly in AssemblyExplorerManager.UserVisibleAssemblies
+            var files = from assembly in assemblyExplorerManager.UserVisibleAssemblies
                         from file in assembly.GetFiles()
                         select file.Location.FullPath;
             return files.Distinct(x => x).ToList();
