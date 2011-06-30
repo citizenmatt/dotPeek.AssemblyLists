@@ -12,10 +12,10 @@ namespace CitizenMatt.DotPeek.AssemblyLists
     [SolutionComponent]
     public class AssemblyListOwner : IXmlExternalizable
     {
-        private readonly AssemblyExplorerManager assemblyExplorerManager;
+        private readonly IAssemblyExplorerManager assemblyExplorerManager;
         private AssemblyListManager manager = new AssemblyListManager(new Dictionary<string, IList<string>>(), null);
 
-        public AssemblyListOwner(Lifetime lifetime, AssemblyExplorerManager assemblyExplorerManager, ShellSettingsComponent shellSettings)
+        public AssemblyListOwner(Lifetime lifetime, IAssemblyExplorerManager assemblyExplorerManager, ShellSettingsComponent shellSettings)
         {
             this.assemblyExplorerManager = assemblyExplorerManager;
             shellSettings.LoadSettings(lifetime, this, XmlExternalizationScope.WorkspaceSettings, "AssemblyLists");
