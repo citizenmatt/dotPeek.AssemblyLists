@@ -12,7 +12,7 @@ namespace CitizenMatt.DotPeek.AssemblyLists
     [SolutionComponent]
     public class AssemblyListOwner : IXmlExternalizable
     {
-      private readonly IAssemblyExplorerManager assemblyExplorerManager;
+        private readonly IAssemblyExplorerManager assemblyExplorerManager;
         private AssemblyListManager manager = new AssemblyListManager(new Dictionary<string, IList<string>>(), null);
 
         public AssemblyListOwner(Lifetime lifetime, IAssemblyExplorerManager assemblyExplorerManager, ShellSettingsComponent shellSettings)
